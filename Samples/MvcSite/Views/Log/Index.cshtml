@@ -1,0 +1,61 @@
+﻿@model MvcSite.Models.Log
+@{
+    ViewBag.Title = "Event Log";
+}
+
+<div class="hero-unit">
+   <h2>@ViewBag.Title</h2>
+   <div id="event-log-table">
+      <table class="table table-bordered">
+         <thead>
+            <tr>
+               <th>Time</th>
+               <th>Duration</th>
+               <th>Message</th>
+            </tr>
+         </thead>
+         <tbody>
+            @foreach (var evt in Model.Events)
+            {
+               var rowClass = "info";
+               switch (evt.Type)
+               {
+                  case NLogEx.EventType.Warning:
+                     rowClass = "warning";
+                     break;
+                  case NLogEx.EventType.Error:
+                     rowClass = "error";
+                     break;
+               }
+               <tr class="@rowClass">
+                  <td>@Html.ActionLink(evt.Time.ToString("MMM dd hh:mm:ss"), "Event", new { id = evt.ID })</td>
+                  <td>@evt.Duration.ToString("0.0 ms")</td>
+                  <td>@evt.Message</td>
+               </tr>
+            }
+         </tbody>
+      </table>
+   </div>
+   @if (Model.PageCount > 1)
+   {
+      <div class="pagination">
+         <ul>
+            @if (Model.PageNumber > 0)
+            { <li>@Html.ActionLink("«", "Index", new { id = Model.PageNumber - 1 })</li> }
+            else
+            { <li class="disabled"><span>«</span></li> }
+            @for (Int32 page = 0; page < Model.PageCount; page++)
+            {
+               if (page == Model.PageNumber)
+               { <li class="active"><span>@page</span></li> }
+               else
+               { <li>@Html.ActionLink(page.ToString(), "Index", new { id = page })</li> }
+            }
+            @if (Model.PageNumber < Model.PageCount - 1)
+            { <li>@Html.ActionLink("»", "Index", new { id = Model.PageNumber + 1 })</li> }
+            else
+            { <li class="disabled"><span>»</span></li> }
+         </ul>
+      </div>
+   }
+</div>

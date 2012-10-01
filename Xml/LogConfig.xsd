@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NLogEx Configuration Schema
+     defines the configuration format for logging sections in
+     app/web.config files
+  -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+   xmlns:lc="http://brentspell.us/Schemas/NLogEx/LogConfig"
+   targetNamespace="http://brentspell.us/Schemas/NLogEx/LogConfig" 
+   elementFormDefault="qualified"
+   version="1">
+   <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+   <!-- ROOT ELEMENT -->
+   <!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+   <!-- Log configuration
+        contains the log instances used to configure logging
+   -->
+   <element name="NLogEx">
+      <complexType>
+         <all>
+            <element name="instances" minOccurs="0">
+               <complexType>
+                  <sequence>
+                     <element name="add" type="lc:Instance" maxOccurs="unbounded"/>
+                  </sequence>
+               </complexType>
+            </element>
+         </all>
+      </complexType>
+   </element>
+   <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+   <!-- CHILD ELEMENTS -->
+   <!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+   <!-- Log instance 
+        represents a single logger instance and its configuration
+   -->
+   <complexType name="Instance">
+      <all>
+         <element name="properties">
+            <complexType>
+               <sequence>
+                  <element name="add" maxOccurs="unbounded" type="lc:EventPropertyName"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="logger" type="lc:Logger"/>
+         <element name="filter" type="lc:Filter" minOccurs="0"/>
+      </all>
+      <attribute name="buffer" type="nonNegativeInteger"/>
+      <attribute name="synchronous" type="boolean"/>
+   </complexType>
+   <!-- Logger
+        Specifies the CLS type implementing the ILogger interface for
+        this logging instance.
+   -->
+   <complexType name="Logger">
+      <all>
+         <element name="properties" minOccurs="0">
+            <complexType>
+               <sequence>
+                  <element name="add" maxOccurs="unbounded" type="lc:Property"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="formatter" type="lc:Formatter" minOccurs="0"/>
+      </all>
+      <attribute name="type" type="lc:ClsTypeName" use="required"/>
+   </complexType>
+   <!-- Log filter 
+        Defines the property filters used to select the log
+        events to route to the current log instance.
+   -->
+   <complexType name="Filter">
+      <sequence maxOccurs="unbounded">
+         <choice>
+            <element name="include" type="lc:FilterProperty"/>
+            <element name="exclude" type="lc:FilterProperty"/>
+         </choice>
+      </sequence>
+   </complexType>
+   <!-- Logger property 
+        Specifies a named property value to assign to the 
+        logger instance
+   -->
+   <complexType name="Property" mixed="true">
+      <attribute name="name" type="lc:PropertyName" use="required"/>
+   </complexType>
+   <!-- Filter property
+        Specifies a context-qualified named property
+        with event naming syntax: <context>.<event>,
+        along with the filter value, comparer, and except flag
+   -->
+   <complexType name="FilterProperty">
+      <attribute name="name" type="lc:EventPropertyName" use="required"/>
+      <attribute name="value" type="string"/>
+      <attribute name="comparer" type="lc:ClsTypeName"/>
+      <attribute name="except" type="boolean"/>
+   </complexType>
+   <!-- Log formatter
+        Specifies the text formatting configuration fro the
+        current log instance.
+   -->
+   <complexType name="Formatter">
+      <attribute name="format" type="string"/>
+      <attribute name="wrap" type="boolean"/>
+      <attribute name="indent" type="nonNegativeInteger"/>
+      <attribute name="hang" type="nonNegativeInteger"/>
+      <attribute name="width" type="nonNegativeInteger"/>
+   </complexType>
+   <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+   <!-- CUSTOM DATA TYPES -->
+   <!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+   <!-- CLS type name -->
+   <simpleType name="ClsTypeName">
+      <restriction base="string">
+         <pattern value="[_0-9A-Za-z.+,= ]+"/>
+      </restriction>
+   </simpleType>
+   <!-- Generic logger property name -->
+   <simpleType name="PropertyName">
+      <restriction base="string">
+         <pattern value="[_A-Za-z][_0-9A-Za-z]*"/>
+      </restriction>
+   </simpleType>
+   <!-- Context-qualified log event property name -->
+   <simpleType name="EventPropertyName">
+      <restriction base="string">
+         <pattern value="[_A-Za-z][_0-9A-Za-z]*\.[_A-Za-z][_0-9A-Za-z\-\.]*"/>
+      </restriction>
+   </simpleType>
+</schema>

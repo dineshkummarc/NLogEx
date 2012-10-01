@@ -1,0 +1,10 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Error";
+}
+
+<div class="hero-unit">
+   <h2>Error Raised</h2>
+   <pre class="text-error">@Model.Exception</pre>
+   @Html.ActionLink("Event Log", "Index")
+</div>

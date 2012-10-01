@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{BEBD119C-E418-41CC-9F5E-63C64B9052C7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NLogEx</RootNamespace>
+    <AssemblyName>NLogEx</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputPath>..\Bin\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Version.cs">
+      <Link>Properties\Version.cs</Link>
+    </Compile>
+    <Compile Include="Comparers\Converter.cs" />
+    <Compile Include="Comparers\HasAttribute.cs" />
+    <Compile Include="Comparers\IsGreaterThan.cs" />
+    <Compile Include="Comparers\IsLessThan.cs" />
+    <Compile Include="Comparers\HasSubstring.cs" />
+    <Compile Include="Comparers\IsSubclassOf.cs" />
+    <Compile Include="Comparers\Default.cs" />
+    <Compile Include="Comparers\HasFlag.cs" />
+    <Compile Include="Comparers\MatchesRegEx.cs" />
+    <Compile Include="Utility\Disposable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Formatter.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\ConfigException.cs" />
+    <Compile Include="Config\FilterElement.cs" />
+    <Compile Include="Config\FormatterElement.cs" />
+    <Compile Include="Config\InstanceElement.cs" />
+    <Compile Include="Config\LoggerElement.cs" />
+    <Compile Include="Config\PropertyElement.cs" />
+    <Compile Include="Config\ValueElement.cs" />
+    <Compile Include="Context\Environment.cs" />
+    <Compile Include="Context\Process.cs" />
+    <Compile Include="Context\Thread.cs" />
+    <Compile Include="Context\Transaction.cs" />
+    <Compile Include="Loggers\Buffer.cs" />
+    <Compile Include="Loggers\Console.cs" />
+    <Compile Include="Loggers\DBTable.cs" />
+    <Compile Include="Loggers\Debug.cs" />
+    <Compile Include="Loggers\Null.cs" />
+    <Compile Include="Loggers\Queue.cs" />
+    <Compile Include="Loggers\Smtp.cs" />
+    <Compile Include="Loggers\TextFile.cs" />
+    <Compile Include="Loggers\Windows.cs" />
+    <Compile Include="Model\Event.cs" />
+    <Compile Include="Model\EventContext.cs" />
+    <Compile Include="Model\Filter.cs" />
+    <Compile Include="Model\Instance.cs" />
+    <Compile Include="SysDiag\TraceListener.cs" />
+    <Compile Include="Utility\TypeLoader.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

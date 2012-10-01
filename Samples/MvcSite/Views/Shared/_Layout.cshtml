@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8" />
+   <title>@ViewBag.Title</title>
+   <link rel="stylesheet" href="@Url.Content("~/Content/Css/Bootstrap/Css/Bootstrap.min.css")"/>
+   <link rel="stylesheet" href="@Url.Content("~/Content/Css/Site.css")"/>
+   <link rel="shortcut icon" href="@Url.Content("~/Content/Img/favicon.ico")"/> 
+</head>
+<body>
+   <div id="wrapper">
+      <div class="navbar navbar-inverse">
+         <div class="navbar-inner">
+            <div class="container">
+               <a class="brand" href="#">NLogEx MVC Sample</a>
+               <ul class="nav nav-pills unselectable">
+                  <li>@Html.ActionLink("Event Log", "Index", "Log")</li>
+                  <li>@Html.ActionLink("No Log", "NoLog", "Log")</li>
+                  <li>@Html.ActionLink("Warning", "Warning", "Log")</li>
+                  <li>@Html.ActionLink("Error", "Error", "Log")</li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <div class="container-fluid">
+         @RenderBody()
+      </div>
+   </div>
+   <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.1.7.2.min.js")"></script>
+   <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap.2.1.1.min.js")"></script>
+</body>
+</html>

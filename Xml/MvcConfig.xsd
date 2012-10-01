@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NLogEx MVC Configuration Schema
+     defines the configuration format for logging sections in
+     web.config files
+  -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+   xmlns:mvc="http://brentspell.us/Schemas/NLogEx/MvcConfig"
+   targetNamespace="http://brentspell.us/Schemas/NLogEx/MvcConfig" 
+   elementFormDefault="qualified"
+   version="1">
+   <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+   <!-- ROOT ELEMENT -->
+   <!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+   <!-- MVC configuration
+        contains custom configuration for MVC applications
+   -->
+   <element name="NLogEx.Mvc">
+      <complexType>
+         <all>
+            <element name="filters" minOccurs="0">
+               <complexType>
+                  <sequence>
+                     <element name="add" type="mvc:Filter" maxOccurs="unbounded"/>
+                  </sequence>
+               </complexType>
+            </element>
+         </all>
+      </complexType>
+   </element>
+   <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+   <!-- CHILD ELEMENTS -->
+   <!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+   <!-- Filter
+        represents a global action filter
+   -->
+   <complexType name="Filter">
+      <attribute name="type" type="mvc:ClsTypeName" use="required"/>
+      <attribute name="controller" type="string"/>
+      <attribute name="action" type="string"/>
+   </complexType>
+   <!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+   <!-- CUSTOM DATA TYPES -->
+   <!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+   <!-- CLS type name -->
+   <simpleType name="ClsTypeName">
+      <restriction base="string">
+         <pattern value="[_0-9A-Za-z.+,= ]+"/>
+      </restriction>
+   </simpleType>
+</schema>

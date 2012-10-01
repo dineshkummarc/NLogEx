@@ -1,0 +1,17 @@
+﻿@model MvcSite.Models.Log.Event
+@{
+    ViewBag.Title = String.Format("Event {0}", Model.ID);
+}
+
+<div class="hero-unit">
+   <h2>@ViewBag.Title</h2>
+   <div class="well">
+      <dl class="dl-horizontal">
+         @foreach (var prop in Model.Properties)
+         {
+            <dt>@prop.Key</dt><dd>@(prop.Value ?? "(null)")</dd>
+         }
+      </dl>
+   </div>
+   @Html.ActionLink("Event Log", "Index")
+</div>

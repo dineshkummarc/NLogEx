@@ -719,7 +719,7 @@ namespace NLogEx
       /// <returns>
       /// A disposable object used to release the lock
       /// </returns>
-      private static IDisposable ConfigReadLock ()
+      private static Disposable ConfigReadLock ()
       {
          configLock.EnterReadLock();
          return new Disposable(configLock.ExitReadLock);
@@ -730,7 +730,7 @@ namespace NLogEx
       /// <returns>
       /// A disposable object used to release the lock
       /// </returns>
-      private static IDisposable ConfigWriteLock ()
+      private static Disposable ConfigWriteLock ()
       {
          configLock.EnterWriteLock();
          return new Disposable(configLock.ExitWriteLock);

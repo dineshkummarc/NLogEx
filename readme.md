@@ -159,7 +159,10 @@ extensible property comparison mechanism that goes beyond typed equality.
 
    <!-- Include only events logged by a class derived from MyBase -->
    <filter>
-      <include name="Event.Source" comparer="NLogEx.Comparers.IsSubclassOf,NLogEx" value="MyNamespace.MyBase,MyAssembly"/>
+      <include 
+         name="Event.Source" 
+         comparer="NLogEx.Comparers.IsSubclassOf,NLogEx" 
+         value="MyNamespace.MyBase,MyAssembly"/>
    </filter>
 ```
 

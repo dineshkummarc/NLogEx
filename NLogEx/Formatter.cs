@@ -232,9 +232,6 @@ namespace NLogEx
                // indent and return the current segment
                String segment = line.Substring(curIndex, curWidth);
                yield return FormatSegmentString(segment, lineNumber);
-               // set the hanging indent for following lines
-               if (this.Wrap && lineNumber == 0)
-                  maxWidth -= this.Hang;
                // skip any space on the next wrapped segment
                curIndex += curWidth;
                while (curIndex < line.Length && Char.IsWhiteSpace(line[curIndex]))

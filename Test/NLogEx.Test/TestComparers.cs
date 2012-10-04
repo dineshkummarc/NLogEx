@@ -62,10 +62,15 @@ namespace NLogEx.Test
          // matching
          Assert.IsTrue(new Comparers.HasAttribute().Equals(TestEnum.One, typeof(FlagsAttribute)));
          Assert.IsTrue(new Comparers.HasAttribute().Equals(TestEnum.One, "System.FlagsAttribute"));
+         Assert.IsTrue(new Comparers.HasAttribute().Equals(typeof(TestEnum), typeof(FlagsAttribute)));
+         Assert.IsTrue(new Comparers.HasAttribute().Equals(typeof(TestEnum), "System.FlagsAttribute"));
          // non-matching
          Assert.IsFalse(new Comparers.HasAttribute().Equals(new Object(), typeof(FlagsAttribute)));
          Assert.IsFalse(new Comparers.HasAttribute().Equals(TestEnum.One, typeof(AttributeUsageAttribute)));
          Assert.IsFalse(new Comparers.HasAttribute().Equals(TestEnum.One, "System.AttributeUsageAttribute"));
+         Assert.IsFalse(new Comparers.HasAttribute().Equals(typeof(Object), typeof(FlagsAttribute)));
+         Assert.IsFalse(new Comparers.HasAttribute().Equals(typeof(TestEnum), typeof(AttributeUsageAttribute)));
+         Assert.IsFalse(new Comparers.HasAttribute().Equals(typeof(TestEnum), "System.AttributeUsageAttribute"));
       }
 
       [TestMethod]
@@ -163,6 +168,8 @@ namespace NLogEx.Test
          Assert.IsTrue(new Comparers.IsSubclassOf().Equals(new Descended(), typeof(Derived).AssemblyQualifiedName));
          Assert.IsTrue(new Comparers.IsSubclassOf().Equals(new Descended(), typeof(Base).AssemblyQualifiedName));
          Assert.IsTrue(new Comparers.IsSubclassOf().Equals(new Descended(), typeof(Object).FullName));
+         Assert.IsTrue(new Comparers.IsSubclassOf().Equals(typeof(Base), typeof(Base)));
+         Assert.IsTrue(new Comparers.IsSubclassOf().Equals(typeof(Derived), typeof(Base)));
          // non-matching
          Assert.IsFalse(new Comparers.IsSubclassOf().Equals(42, typeof(Base)));
          Assert.IsFalse(new Comparers.IsSubclassOf().Equals(42, typeof(Derived)));
@@ -188,6 +195,7 @@ namespace NLogEx.Test
          Assert.IsFalse(new Comparers.IsSubclassOf().Equals(new Derived(), typeof(Descended).AssemblyQualifiedName));
          Assert.IsFalse(new Comparers.IsSubclassOf().Equals(new Base(), typeof(Descended).AssemblyQualifiedName));
          Assert.IsFalse(new Comparers.IsSubclassOf().Equals(new Base(), typeof(Derived).AssemblyQualifiedName));
+         Assert.IsFalse(new Comparers.IsSubclassOf().Equals(typeof(Int32), typeof(Base)));
       }
 
       [TestMethod]

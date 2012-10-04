@@ -153,8 +153,14 @@ extensible property comparison mechanism that goes beyond typed equality.
         but ignore all events when processor usage is > 50%
      -->
    <filter>
-      <include name="Event.Message" comparer="NLogEx.Comparers.RegEx,NLogEx" value=".*error|warning.*"/>
-      <exclude name="Wmi.Win32_Processor.LoadPercentage" comparer="NLogEx.Comparers.IsGreaterThan,NLogEx" value="50"/>
+      <include 
+         name="Event.Message" 
+         comparer="NLogEx.Comparers.RegEx,NLogEx" 
+         value=".*error|warning.*"/>
+      <exclude
+         name="Wmi.Win32_Processor.LoadPercentage" 
+         comparer="NLogEx.Comparers.IsGreaterThan,NLogEx" 
+         value="50"/>
    </filter>
 
    <!-- Include only events logged by a class derived from MyBase -->

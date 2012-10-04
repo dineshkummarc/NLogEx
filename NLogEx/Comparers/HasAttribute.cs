@@ -56,9 +56,12 @@ namespace NLogEx.Comparers
       /// </returns>
       public new Boolean Equals (Object x, Object y)
       {
+         // convert the LHS/RHS to type objects
+         Type xType = x as Type ?? x.GetType();
          if (this.attributeType == null)
-            this.attributeType = TypeLoader.Load(y.ToString());
-         return x.GetType().GetCustomAttributes(this.attributeType, true).Length > 0;
+            this.attributeType = y as Type ?? TypeLoader.Load(Convert.ToString(y));
+         // determine the attribute relationship
+         return xType.GetCustomAttributes(this.attributeType, true).Length > 0;
       }
       /// <summary>
       /// Calculates an event property hash code

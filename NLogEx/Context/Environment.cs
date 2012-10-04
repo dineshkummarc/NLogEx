@@ -51,7 +51,7 @@ namespace NLogEx.Context
             { "UserName", () => System.Environment.UserName },
             { "UserDomainName", () => System.Environment.UserDomainName },
             { "CurrentDirectory", () => System.Environment.CurrentDirectory },
-            { "OSVersion", () => System.Environment.OSVersion },
+            { "OSVersion", () => Convert.ToString(System.Environment.OSVersion) },
             { "ProcessorCount", () => System.Environment.ProcessorCount }
          };
          // add requested environment variables

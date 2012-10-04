@@ -58,8 +58,8 @@ namespace NLogEx.Wcf
             new Dictionary<String, Func<Object>>()
             {
                { "SessionID", () => (Operation != null) ? Operation.SessionId : null },
-               { "LocalAddress", () => (Operation != null) ? Operation.Channel.LocalAddress : null },
-               { "RemoteAddress", () => (Operation != null) ? Operation.Channel.RemoteAddress : null },
+               { "LocalAddress", () => (Operation != null) ? Convert.ToString(Operation.Channel.LocalAddress) : null },
+               { "RemoteAddress", () => (Operation != null) ? Convert.ToString(Operation.Channel.RemoteAddress) : null },
             }
          );
       }

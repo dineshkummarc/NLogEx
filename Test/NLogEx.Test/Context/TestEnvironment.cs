@@ -67,7 +67,7 @@ namespace NLogEx
             Assert.AreEqual(evt["Environment.UserName"], Environment.UserName);
             Assert.AreEqual(evt["Environment.UserDomainName"], Environment.UserDomainName);
             Assert.AreEqual(evt["Environment.CurrentDirectory"], Environment.CurrentDirectory);
-            Assert.AreEqual(evt["Environment.OSVersion"], Environment.OSVersion);
+            Assert.AreEqual(evt["Environment.OSVersion"], Convert.ToString(Environment.OSVersion));
             Assert.AreEqual(evt["Environment.ProcessorCount"], Environment.ProcessorCount);
             Assert.AreEqual(evt["Environment.SystemRoot"], Environment.GetEnvironmentVariable("SystemRoot"));
          }

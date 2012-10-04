@@ -18,8 +18,6 @@
 //    51 Franklin Street, Fifth Floor 
 //    Boston, MA 02110-1301 USA
 //===========================================================================
-// Compiler Symbols
-#define TRACE
 // System References
 using System;
 using System.Text;

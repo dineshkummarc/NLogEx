@@ -376,6 +376,7 @@ namespace NLogEx
       /// <param name="objects">
       /// The event message format parameters
       /// </param>
+      [Conditional("TRACE")]
       public void Trace (String format, params Object[] objects)
       {
          DispatchEvent(EventType.Trace, null, null, format, objects);
@@ -392,6 +393,7 @@ namespace NLogEx
       /// <param name="objects">
       /// The event message format parameters
       /// </param>
+      [Conditional("TRACE")]
       public void TraceEx (Object props, String format = null, params Object[] objects)
       {
          DispatchEvent(EventType.Trace, props, null, format, objects);

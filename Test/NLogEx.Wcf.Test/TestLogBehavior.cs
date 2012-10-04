@@ -114,6 +114,28 @@ namespace NLogEx.Wcf.Test
                Assert.IsTrue((Int64)evt["Operation.Duration"] < 10000000);
             }
             Assert.IsFalse(queue.Dequeue().Any());
+            // client-side logging (one-way)
+            using (var server = StartService(false))
+            using (var client = ConnectSimplex(true))
+               for (Int32 i = 0; i < TestIterations; i++)
+                  client.Server.FireAndForget();
+            for (Int32 i = 0; i < TestIterations; i++)
+            {
+               evt = queue.Dequeue().First();
+               Assert.AreEqual(evt["Event.Type"], EventType.Trace);
+               Assert.AreEqual(evt["Event.Source"], typeof(ISimplexServer));
+               Assert.IsNotNull(evt["Event.Message"]);
+               Assert.IsNull(evt["Event.Exception"]);
+               Assert.IsNotNull(evt["Operation.ID"]);
+               Assert.IsNotNull(evt["Operation.Version"]);
+               Assert.IsNotNull(evt["Operation.Action"]);
+               Assert.AreEqual(evt["Operation.Name"], "FireAndForget");
+               Assert.IsNull(evt["Operation.From"]);
+               Assert.IsNotNull(evt["Operation.To"]);
+               Assert.IsTrue((Int64)evt["Operation.Duration"] >= 0);
+               Assert.IsTrue((Int64)evt["Operation.Duration"] < 10000000);
+            }
+            Assert.IsFalse(queue.Dequeue().Any());
             // client-side exception logging
             using (var server = StartService(false))
                for (Int32 i = 0; i < TestIterations; i++)

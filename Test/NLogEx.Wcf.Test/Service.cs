@@ -74,6 +74,11 @@ namespace NLogEx.Wcf.Test
       [OperationContract]
       void AutoLog ();
       /// <summary>
+      /// Server execution (one-way)
+      /// </summary>
+      [OperationContract(IsOneWay = true)]
+      void FireAndForget ();
+      /// <summary>
       /// Server execution with manual logging
       /// </summary>
       /// <param name="message">
@@ -92,7 +97,7 @@ namespace NLogEx.Wcf.Test
    }
 
    /// <summary>
-   /// Test server contract (dumplex)
+   /// Test server contract (duplex)
    /// </summary>
    /// <remarks>
    /// This interface is implemented by the test server and
@@ -142,6 +147,12 @@ namespace NLogEx.Wcf.Test
       /// Server execution
       /// </summary>
       public void AutoLog ()
+      {
+      }
+      /// <summary>
+      /// Server execution (one-way)
+      /// </summary>
+      public void FireAndForget ()
       {
       }
       /// <summary>

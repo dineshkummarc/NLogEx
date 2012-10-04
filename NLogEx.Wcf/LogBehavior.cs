@@ -156,7 +156,17 @@ namespace NLogEx.Wcf
             ref Message request, 
             IClientChannel channel)
          {
-            return OnRequestBegin(request);
+            // if this is a two-way operation, call the request
+            // handler and return the correlation
+            if (request.Headers.ReplyTo != null)
+               return OnRequestBegin(request);
+            // otherwise, call the request and reply handler,
+            // since WCF does not call AfterReceiveReply for
+            // one-way operations
+            Message reply = null;
+            if (request.Headers.ReplyTo == null)
+               OnRequestEnd(OnRequestBegin(request), ref reply);
+            return null;
          }
          /// <summary>
          /// Post-request completion callback

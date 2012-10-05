@@ -4,6 +4,8 @@ A lightweight logging framework for .NET 4.0+
 
 ###`PM> Install-Package NLogEx`###
 
+Please check out the [wiki](wiki).
+
 ##Features:##
 * A simple application logging interface that is decoupled from log
   implementation, allowing logging policy to change through configuration

@@ -70,7 +70,7 @@ namespace NLogEx.Loggers
          // create a new console window if none exists
          AllocConsole();
          // configure the formatter to match the console width
-         if (this.Formatter.Width == 0)
+         if (this.Formatter.Wrap && this.Formatter.Width == 0)
             this.Formatter.Width = System.Console.BufferWidth - 1;
       }
       /// <summary>

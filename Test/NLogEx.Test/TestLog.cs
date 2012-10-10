@@ -544,17 +544,18 @@ namespace NLogEx
          )
          {
             Event evt;
+            var globalCurrent = globalValue;
             // initial value
             log.Info(null);
             evt = queue.Dequeue().Single();
             Assert.AreEqual(evt["Global.Value"], globalValue);
-            Assert.AreEqual(evt["Global.Value"], 1);
+            Assert.AreEqual(evt["Global.Value"], ++globalCurrent);
             Assert.AreEqual(evt["Global.Host"], Environment.MachineName);
             // subsequent
             log.Info(null);
             evt = queue.Dequeue().Single();
             Assert.AreEqual(evt["Global.Value"], globalValue);
-            Assert.AreEqual(evt["Global.Value"], 2);
+            Assert.AreEqual(evt["Global.Value"], ++globalCurrent);
             Assert.AreEqual(evt["Global.Host"], Environment.MachineName);
          }
       }

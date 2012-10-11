@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -33,12 +34,12 @@ namespace NLogEx.Loggers
    /// The database table logger
    /// </summary>
    /// <remarks>
-   /// This class serializes log events to a
-   /// configured database table. 
+   /// This class serializes log events to a configured database table. 
    /// </remarks>
    public sealed class DBTable : ILogger
    {
-      private String insertCommand;
+      private DbDataAdapter adapter;
+      private DataSet dataset;
 
       #region Logger Configuration
       /// <summary>
@@ -87,23 +88,33 @@ namespace NLogEx.Loggers
          }
          if (String.IsNullOrWhiteSpace(this.Table))
             throw new ConfigException(this, "Table");
-         // ensure we can connect to the log database
-         using (DbCommand command = CreateCommand(String.Format("SELECT TOP 1 * FROM {0};", this.Table)))
-            command.ExecuteNonQuery();
-         // construct the table insert statement
-         if (this.insertCommand == null)
-         {
-            StringBuilder command = new StringBuilder();
-            command.Append(String.Format("INSERT {0} (", this.Table));
-            if (!String.IsNullOrWhiteSpace(this.Columns))
-               command.Append(this.Columns);
-            else
-               command.Append(String.Join(", ", properties.Select(p => p.Substring(p.LastIndexOf('.') + 1))));
-            command.Append(") VALUES (");
-            command.Append(String.Join(", ", properties.Select((p, i) => String.Format("@p{0}", i))));
-            command.Append(");");
-            this.insertCommand = command.ToString();
-         }
+         if (String.IsNullOrWhiteSpace(this.Columns))
+            this.Columns = String.Join(
+               ", ", 
+               properties.Select(p => p.Substring(p.IndexOf('.') + 1))
+            );
+         // construct the generic SELECT statement,
+         // used to generate the parameterized insert statement
+         StringBuilder selectCommand = new StringBuilder();
+         selectCommand.Append("SELECT ");
+         selectCommand.Append(this.Columns);
+         selectCommand.Append(String.Format(" FROM {0} WHERE (0 = 1);", this.Table));
+         // create the data adapter
+         DbProviderFactory factory = DbProviderFactories.GetFactory(this.Provider);
+         this.adapter = factory.CreateDataAdapter();
+         this.adapter.SelectCommand = factory.CreateCommand();
+         this.adapter.SelectCommand.Connection = factory.CreateConnection();
+         this.adapter.SelectCommand.Connection.ConnectionString = this.ConnectionString;
+         this.adapter.SelectCommand.CommandText = selectCommand.ToString();
+         // load the empty dataset to validate the target table
+         this.dataset = new DataSet();
+         this.adapter.SelectCommand.Connection.Open();
+         try { this.adapter.Fill(this.dataset); }
+         finally { this.adapter.SelectCommand.Connection.Close(); }
+         // generate the insert statement from the select statement
+         DbCommandBuilder builder = factory.CreateCommandBuilder();
+         builder.DataAdapter = this.adapter;
+         this.adapter.InsertCommand = builder.GetInsertCommand();
       }
       /// <summary>
       /// Log event dispatch
@@ -113,48 +124,30 @@ namespace NLogEx.Loggers
       /// </param>
       public void Log (IList<Event> events)
       {
-         // insert the events into the table
-         using (DbCommand command = CreateCommand(this.insertCommand))
+         // connect the adapter to the log database
+         this.adapter.InsertCommand.Connection.Open();
+         try
          {
-            for (Int32 i = 0; i < events[0].Properties.Count; i++)
-            {
-               DbParameter param = command.CreateParameter();
-               param.ParameterName = String.Format("@p{0}", i);
-               command.Parameters.Add(param);
-            }
+            // insert the events into the table
             foreach (Event evt in events)
             {
-               Int32 paramIdx = 0;
-               foreach (Object prop in evt.Values)
-                  command.Parameters[paramIdx++].Value = MapProperty(prop);
-               command.ExecuteNonQuery();
+               DataRow row = this.dataset.Tables[0].NewRow();
+               for (Int32 i = 0; i < evt.Properties.Count; i++)
+                  row[i] = MapProperty(evt.Properties[i].Value);
+               this.dataset.Tables[0].Rows.Add(row);
             }
+            // commit all inserts and clear the dataset
+            this.adapter.Update(this.dataset);
+            this.dataset.Clear();
+         }
+         finally
+         {
+            this.adapter.InsertCommand.Connection.Close();
          }
       }
       #endregion
 
       #region SQL Operations
-      /// <summary>
-      /// Connects to the log database and creates a
-      /// new ADO.NET command
-      /// </summary>
-      /// <param name="commandText">
-      /// The SQL command text
-      /// </param>
-      /// <returns>
-      /// The new command instance
-      /// </returns>
-      public DbCommand CreateCommand (String commandText)
-      {
-         DbProviderFactory factory = DbProviderFactories.GetFactory(this.Provider);
-         DbConnection connect = factory.CreateConnection();
-         connect.ConnectionString = this.ConnectionString;
-         connect.Open();
-         DbCommand command = connect.CreateCommand();
-         command.Disposed += (o, a) => connect.Dispose();
-         command.CommandText = commandText;
-         return command;
-      }
       /// <summary>
       /// Maps an event property to an ADO.NET parameter
       /// </summary>
@@ -164,7 +157,7 @@ namespace NLogEx.Loggers
       /// <returns>
       /// The mapped ADO.NET parameter value
       /// </returns>
-      public Object MapProperty (Object prop)
+      private Object MapProperty (Object prop)
       {
          if (prop == null)
             return DBNull.Value;

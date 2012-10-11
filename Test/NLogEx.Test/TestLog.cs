@@ -792,15 +792,15 @@ namespace NLogEx
          {
             // manual flush
             {
-               for (Int32 i = 0; i < buffer; i++)
+               for (Int32 i = 0; i < buffer - 1; i++)
                {
                   log.InfoEx(new { Index = i });
                   Assert.IsFalse(queue.Dequeue().Any());
                }
                Log.Flush();
                var events = queue.Dequeue().ToList();
-               Assert.AreEqual(events.Count, buffer);
-               for (Int32 i = 0; i < buffer; i++)
+               Assert.AreEqual(events.Count, buffer - 1);
+               for (Int32 i = 0; i < buffer - 1; i++)
                {
                   if (i > 0)
                   {
@@ -812,15 +812,15 @@ namespace NLogEx
             }
             // auto flush
             {
-               for (Int32 i = 0; i < buffer; i++)
+               for (Int32 i = 0; i < buffer - 1; i++)
                {
                   log.InfoEx(new { Index = i });
                   Assert.IsFalse(queue.Dequeue().Any());
                }
-               log.InfoEx(new { Index = buffer });
+               log.InfoEx(new { Index = buffer - 1 });
                var events = queue.Dequeue().ToList();
-               Assert.AreEqual(events.Count, buffer + 1);
-               for (Int32 i = 0; i < buffer + 1; i++)
+               Assert.AreEqual(events.Count, buffer);
+               for (Int32 i = 0; i < buffer; i++)
                {
                   if (i > 0)
                   {

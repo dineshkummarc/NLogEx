@@ -97,7 +97,7 @@ namespace NLogEx.Loggers
       {
          foreach (Event evt in events)
             this.queue.Enqueue(evt);
-         if (this.queue.Count > this.size)
+         if (this.queue.Count >= this.size)
             Flush();
       }
       #endregion

@@ -42,7 +42,7 @@ namespace NLogEx.Samples.WmiEventLog
       {
          // ensure we are running in the application directory
          Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(
-            new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath
+            Assembly.GetExecutingAssembly().Location
          );
          // start up the service instance
          var service = new Service();

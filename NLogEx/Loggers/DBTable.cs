@@ -75,17 +75,26 @@ namespace NLogEx.Loggers
       public void Initialize (IEnumerable<String> properties)
       {
          // validate configuration properties
-         if (String.IsNullOrWhiteSpace(this.Provider))
-            this.Provider = "System.Data.SqlClient";
          if (String.IsNullOrWhiteSpace(this.ConnectionString))
          {
             if (String.IsNullOrWhiteSpace(this.ConnectionName))
                throw new ConfigException(this, "ConnectionName");
-            this.ConnectionString = ConfigurationManager
-               .ConnectionStrings[this.ConnectionName].ConnectionString;
+            ConnectionStringSettings config = ConfigurationManager
+               .ConnectionStrings[this.ConnectionName];
+            if (config == null)
+               throw new ConfigException(
+                  String.Format(
+                     "Configured connection {0} not found", 
+                     this.ConnectionName
+                  )
+               );
+            this.ConnectionString = config.ConnectionString;
+            this.Provider = config.ProviderName;
             if (String.IsNullOrWhiteSpace(this.ConnectionString))
-               throw new ConfigException(this, "ConnectionName");
+               throw new ConfigException(this, "ConnectionString");
          }
+         if (String.IsNullOrWhiteSpace(this.Provider))
+            this.Provider = "System.Data.SqlClient";
          if (String.IsNullOrWhiteSpace(this.Table))
             throw new ConfigException(this, "Table");
          if (String.IsNullOrWhiteSpace(this.Columns))

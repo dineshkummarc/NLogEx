@@ -79,6 +79,10 @@ namespace NLogEx.Mvc
             { "Timestamp", () => (Http != null) ? (DateTime?)Http.Timestamp : null },
             { "User", () => (Http != null) ? Http.User.Identity.Name : null },
             { "SessionID", () => (Session != null) ? Session.SessionID : null },
+            { "IPAddress", () => (Request != null) ? 
+                                    Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? 
+                                    Request.UserHostAddress : 
+                                    null }
          };
          // add requested request headers
          if (cfg != null && cfg.RequestHeaders != null)

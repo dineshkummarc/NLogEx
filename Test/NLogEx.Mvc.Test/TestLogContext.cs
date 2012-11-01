@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -63,6 +64,7 @@ namespace NLogEx.Mvc.Test
             "Http.Timestamp",
             "Http.User",
             "Http.SessionID",
+            "Http.IPAddress",
             "Http.Request.TestHeader",
             "Http.Session.TestVariable"
          };
@@ -90,6 +92,7 @@ namespace NLogEx.Mvc.Test
                Assert.AreEqual(evt["Http.User"], "testuser");
                Assert.IsNotNull(evt["Http.SessionID"]);
                Assert.AreEqual(evt["Http.SessionID"], HttpContext.Current.Session.SessionID);
+               Assert.AreEqual(evt["Http.IPAddress"], Dns.GetHostAddresses("localhost")[0].ToString());
                Assert.AreEqual(evt["Http.Request.TestHeader"], "TestHeaderValue");
                Assert.AreEqual(evt["Http.Session.TestVariable"], "TestVariableValue");
             }
@@ -109,6 +112,7 @@ namespace NLogEx.Mvc.Test
             "Http.Timestamp",
             "Http.User",
             "Http.SessionID",
+            "Http.IPAddress",
             "Http.Request.TestHeader",
             "Http.Session.TestVariable"
          };
@@ -142,6 +146,7 @@ namespace NLogEx.Mvc.Test
                Assert.IsTrue((DateTime)evt["Http.Timestamp"] <= DateTime.Now);
                Assert.AreEqual(evt["Http.User"], "testuser");
                Assert.IsNotNull(evt["Http.SessionID"]);
+               Assert.AreEqual(evt["Http.IPAddress"], Dns.GetHostAddresses("localhost")[0].ToString());
                Assert.AreEqual(evt["Http.Request.TestHeader"], "TestHeaderValue");
                Assert.AreEqual(evt["Http.Session.TestVariable"], "TestVariableValue");
             }
@@ -206,7 +211,7 @@ namespace NLogEx.Mvc.Test
          }
          public override String GetRemoteAddress ()
          {
-            return "localhost";
+            return Dns.GetHostAddresses("localhost")[0].ToString();
          }
          public override Int32 GetRemotePort ()
          {

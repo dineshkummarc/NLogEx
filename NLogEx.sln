@@ -7,7 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{1B6719
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		license.txt = license.txt
-		NLogEx.nuspec = NLogEx.nuspec
 		NLogEx.png = NLogEx.png
 		readme.md = readme.md
 		Version.cs = Version.cs
@@ -42,6 +41,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfDisco", "Samples\WcfDisco\WcfDisco.csproj", "{8E5AF116-F7DA-45D5-9A5E-56BCC6F9092F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WmiEventLog", "Samples\WmiEventLog\WmiEventLog.csproj", "{B57BC7F0-9AB6-4A59-8BC7-EE9AD13AEC4B}"
+EndProject
+Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "NLogEx.NuGet", "NLogEx.NuGet\NLogEx.NuGet.nuproj", "{F1EB1D1B-8773-4BA4-B0DA-D1C63F579FC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +94,10 @@ Global
 		{B57BC7F0-9AB6-4A59-8BC7-EE9AD13AEC4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B57BC7F0-9AB6-4A59-8BC7-EE9AD13AEC4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B57BC7F0-9AB6-4A59-8BC7-EE9AD13AEC4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1EB1D1B-8773-4BA4-B0DA-D1C63F579FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1EB1D1B-8773-4BA4-B0DA-D1C63F579FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1EB1D1B-8773-4BA4-B0DA-D1C63F579FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1EB1D1B-8773-4BA4-B0DA-D1C63F579FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

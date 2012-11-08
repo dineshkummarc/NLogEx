@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{f1eb1d1b-8773-4ba4-b0da-d1c63f579fc9}</ProjectGuid>
+    <OutputPath>..\Bin\</OutputPath>
+    <NuBuildVersionSource>library</NuBuildVersionSource>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="NLogEx.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NLogEx.Mvc\NLogEx.Mvc.csproj">
+      <Name>NLogEx.Mvc</Name>
+      <Project>{ca09def8-3ed6-408b-bb46-31b100b58cdf}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\NLogEx.Wcf\NLogEx.Wcf.csproj">
+      <Name>NLogEx.Wcf</Name>
+      <Project>{ca2386fe-377d-41c1-a8d8-7308708cdccc}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\NLogEx\NLogEx.csproj">
+      <Name>NLogEx</Name>
+      <Project>{bebd119c-e418-41cc-9f5e-63c64b9052c7}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\NuBuild\v1\NuBuild.targets" />
+</Project>

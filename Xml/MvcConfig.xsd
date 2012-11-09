@@ -19,7 +19,7 @@
          <all>
             <element name="filters" minOccurs="0">
                <complexType>
-                  <sequence>
+                  <sequence minOccurs="0">
                      <element name="add" type="mvc:Filter" maxOccurs="unbounded"/>
                   </sequence>
                </complexType>

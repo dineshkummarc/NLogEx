@@ -19,7 +19,7 @@
          <all>
             <element name="instances" minOccurs="0">
                <complexType>
-                  <sequence>
+                  <sequence minOccurs="0">
                      <element name="add" type="lc:Instance" maxOccurs="unbounded"/>
                   </sequence>
                </complexType>
@@ -37,7 +37,7 @@
       <all>
          <element name="properties">
             <complexType>
-               <sequence>
+               <sequence minOccurs="0">
                   <element name="add" maxOccurs="unbounded" type="lc:EventPropertyName"/>
                </sequence>
             </complexType>
@@ -56,7 +56,7 @@
       <all>
          <element name="properties" minOccurs="0">
             <complexType>
-               <sequence>
+               <sequence minOccurs="0">
                   <element name="add" maxOccurs="unbounded" type="lc:Property"/>
                </sequence>
             </complexType>
@@ -70,7 +70,7 @@
         events to route to the current log instance.
    -->
    <complexType name="Filter">
-      <sequence maxOccurs="unbounded">
+      <sequence minOccurs="0" maxOccurs="unbounded">
          <choice>
             <element name="include" type="lc:FilterProperty"/>
             <element name="exclude" type="lc:FilterProperty"/>

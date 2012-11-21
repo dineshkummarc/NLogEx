@@ -111,6 +111,7 @@ namespace NLogEx.Loggers
          // create the data adapter
          DbProviderFactory factory = DbProviderFactories.GetFactory(this.Provider);
          this.adapter = factory.CreateDataAdapter();
+         this.adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
          this.adapter.SelectCommand = factory.CreateCommand();
          this.adapter.SelectCommand.Connection = factory.CreateConnection();
          this.adapter.SelectCommand.Connection.ConnectionString = this.ConnectionString;
@@ -142,7 +143,7 @@ namespace NLogEx.Loggers
             {
                DataRow row = this.dataset.Tables[0].NewRow();
                for (Int32 i = 0; i < evt.Properties.Count; i++)
-                  row[i] = MapProperty(evt.Properties[i].Value);
+                  SetColumn(row, i, evt.Properties[i].Value);
                this.dataset.Tables[0].Rows.Add(row);
             }
             // commit all inserts and clear the dataset
@@ -158,21 +159,31 @@ namespace NLogEx.Loggers
 
       #region SQL Operations
       /// <summary>
-      /// Maps an event property to an ADO.NET parameter
+      /// Maps an event property to an ADO.NET column
       /// </summary>
+      /// <param name="row">
+      /// The current data row
+      /// </param>
+      /// <param name="colIdx">
+      /// The column index 
+      /// </param>
       /// <param name="prop">
       /// The property value to map
       /// </param>
-      /// <returns>
-      /// The mapped ADO.NET parameter value
-      /// </returns>
-      private Object MapProperty (Object prop)
+      private void SetColumn (DataRow row, Int32 colIdx, Object prop)
       {
-         if (prop == null)
-            return DBNull.Value;
-         if (prop is ValueType)
-            return prop;
-         return prop.ToString();
+         // truncate string properties to match the column
+         var col = row.Table.Columns[colIdx];
+         if (prop != null && col.MaxLength > 0 && col.DataType == typeof(String))
+         {
+            var str = Convert.ToString(prop);
+            if (str.Length > col.MaxLength)
+               prop = str.Substring(0, col.MaxLength);
+         }
+         // assign the column value
+         row[colIdx] = 
+            (prop == null) ? DBNull.Value :
+            (prop is ValueType) ? prop : prop.ToString();
       }
       #endregion
    }

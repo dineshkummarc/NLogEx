@@ -39,6 +39,7 @@
     <Compile Include="LogContext.cs" />
     <Compile Include="Config\FilterElement.cs" />
     <Compile Include="LogAttribute.cs" />
+    <Compile Include="LogModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

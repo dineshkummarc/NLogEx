@@ -53,6 +53,13 @@ namespace NLogEx.Mvc
          get { return (Http != null) ? Http.Request : null; }
       }
       /// <summary>
+      /// The current HTTP response
+      /// </summary>
+      private static HttpResponse Response
+      { 
+         get { return (Http != null) ? Http.Response : null; }
+      }
+      /// <summary>
       /// The current HTTP session
       /// </summary>
       private static HttpSessionState Session
@@ -75,7 +82,10 @@ namespace NLogEx.Mvc
          Dictionary<String, Func<Object>> ctx = new Dictionary<String, Func<Object>>()
          {
             { "Uri", () => (Request != null) ? Request.Url : null },
+            { "Path", () => (Request != null && Request.Url != null) ? Request.Url.PathAndQuery : null },
             { "Method", () => (Request != null) ? Request.HttpMethod : null },
+            { "StatusCode", () => (Response != null) ? Response.StatusCode : 0 },
+            { "Status", () => (Response != null) ? Response.Status : null },
             { "Timestamp", () => (Http != null) ? (DateTime?)Http.Timestamp : null },
             { "User", () => (Http != null) ? Http.User.Identity.Name : null },
             { "SessionID", () => (Session != null) ? Session.SessionID : null },

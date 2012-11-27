@@ -20,6 +20,7 @@
             <element name="instances" minOccurs="0">
                <complexType>
                   <sequence minOccurs="0">
+                     <element name="clear" minOccurs="0"/>
                      <element name="add" type="lc:Instance" maxOccurs="unbounded"/>
                   </sequence>
                </complexType>
@@ -38,6 +39,7 @@
          <element name="properties">
             <complexType>
                <sequence minOccurs="0">
+                  <element name="clear" minOccurs="0"/>
                   <element name="add" maxOccurs="unbounded" type="lc:EventPropertyName"/>
                </sequence>
             </complexType>
@@ -57,6 +59,7 @@
          <element name="properties" minOccurs="0">
             <complexType>
                <sequence minOccurs="0">
+                  <element name="clear" minOccurs="0"/>
                   <element name="add" maxOccurs="unbounded" type="lc:Property"/>
                </sequence>
             </complexType>

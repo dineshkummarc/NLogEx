@@ -48,6 +48,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestLogModule.cs" />
+    <Compile Include="MockHttp.cs" />
     <Compile Include="TestLogContext.cs" />
     <Compile Include="TestLogAttribute.cs" />
   </ItemGroup>

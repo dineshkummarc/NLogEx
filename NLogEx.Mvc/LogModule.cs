@@ -97,12 +97,15 @@ namespace NLogEx.Mvc
          // stop the request timer
          HttpContext context = ((HttpApplication)source).Context;
          Request request = (Request)context.Items[contextName];
-         request.Stop();
-         context.Items.Remove(contextName);
-         // trace the request, and log an error if it failed
-         log.TraceEx(request, context.Request.Path);
-         if (context.Response.StatusCode >= 400 || context.Error != null)
-            log.ErrorEx(request, context.Error);
+         if (request != null)
+         {
+            request.Stop();
+            context.Items.Remove(contextName);
+            // trace the request, and log an error if it failed
+            log.TraceEx(request, context.Request.Path);
+            if (context.Response.StatusCode >= 400 || context.Error != null)
+               log.ErrorEx(request, context.Error);
+         }
       }
       #endregion
 
